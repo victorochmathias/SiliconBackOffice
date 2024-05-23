@@ -1,0 +1,90 @@
+﻿@using System.Net.Http.Json
+@using SiliconBackOffice.Business.Models
+@using System.Text.Json
+
+<div class="courses-page">
+    @if (courses == null)
+    {
+        <p>Loading...</p>
+    }
+    else
+    {
+        <section class="courses">
+            <div class="container">
+                <div class="header">
+                    <h1>Courses</h1>
+                </div>
+                <div class="course-list">
+                    @foreach (var item in courses)
+                    {
+                        <div class="course">
+                            <h5 class="course-title">@item.Title</h5>
+                        </div>
+                    }
+                </div>
+            </div>
+        </section>
+    }
+</div>
+
+@code {
+    private List<CourseCardModel>? courses;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadCourses();
+    }
+
+    private async Task LoadCourses()
+    {
+        try
+        {
+            var query = new GraphQLQuery { Query = "{getCourses { id title }}" };
+            var response = await http.PostAsJsonAsync("https://courseprovider-silicon-backend.azurewebsites.net/api/graphql?", query);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var responseContent = await response.Content.ReadAsStringAsync();
+
+                try
+                {
+                    var result = JsonSerializer.Deserialize<DynamicGraphQLResponse>(responseContent);
+
+                    if (result != null && result.Data.TryGetProperty("getCourses", out var coursesElement))
+                    {
+                        courses = new List<CourseCardModel>();
+
+                        foreach (var course in coursesElement.EnumerateArray())
+                        {
+                            var courseModel = new CourseCardModel();
+
+                            if (course.TryGetProperty("id", out var id))
+                            {
+                                courseModel.Id = id.GetString();
+                            }
+
+                            if (course.TryGetProperty("title", out var title))
+                            {
+                                courseModel.Title = title.GetString();
+                            }
+
+                            courses.Add(courseModel);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("An error occurred while parsing the JSON response: " + ex.Message);
+                }
+            }
+            else
+            {
+                Console.WriteLine("Failed to load courses. Status code: " + response.StatusCode);
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An error occurred while loading courses: " + ex.Message);
+        }
+    }
+}
