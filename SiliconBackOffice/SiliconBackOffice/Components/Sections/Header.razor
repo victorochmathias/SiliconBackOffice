@@ -1,0 +1,42 @@
+﻿@attribute [ValidateAntiForgeryToken]
+
+<div class="container">
+    <div class="header">
+        <div class="logogo">
+            <a class="logo" href="/">
+                <img src="/images/Silicon Logotype - Light Mode.svg" />
+            </a>
+        </div>
+
+        <div class="username">
+            <h2>Hello, @username!</h2>
+        </div>
+        <div class="buttton">
+            <form action="/Logout" method="post">
+                <AntiforgeryToken />
+                <input type="hidden" name="ReturnUrl" value="@currentUrl" />
+                <button type="submit" class="btn-theme-s">
+                    <i class="fa-solid fa-arrow-right-to-bracket"></i><span>Sign out</span>
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+@code {
+    private ApplicationUser user = default!;
+    private string? username;
+
+    [CascadingParameter]
+    private HttpContext HttpContext { get; set; } = default!;
+
+    private string currentUrl;
+
+    protected override async Task OnInitializedAsync()
+    {
+        user = await UserAccessor.GetRequiredUserAsync(HttpContext);
+        username = await UserManager.GetUserNameAsync(user);
+    }
+}

@@ -1,0 +1,32 @@
+﻿@using SiliconBackOffice.Components.Account
+@using SiliconBackOffice.Components.Account.Pages
+@using SiliconBackOffice.Components.Sections
+@using System.Net.Http
+@using System.Net.Http.Json
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.AspNetCore.Components.Routing
+@using Microsoft.AspNetCore.Components.Web
+@using static Microsoft.AspNetCore.Components.Web.RenderMode
+@using Microsoft.AspNetCore.Components.Web.Virtualization
+@using Microsoft.JSInterop
+@using SiliconBackOffice
+@using SiliconBackOffice.Client
+@using SiliconBackOffice.Components
+@using Microsoft.AspNetCore.Authorization
+@using System.ComponentModel.DataAnnotations
+@using System.Text
+@using System.Text.Encodings.Web
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.WebUtilities
+@using SiliconBackOffice.Data
+@using Microsoft.AspNetCore.Authentication
+@using Microsoft.AspNetCore.Mvc
+
+@inject HttpClient http
+@inject NavigationManager NavigationManager
+@inject IdentityRedirectManager RedirectManager
+@inject ILogger<Register> Logger
+@inject UserManager<ApplicationUser> UserManager
+@inject SignInManager<ApplicationUser> SignInManager
+@inject IdentityUserAccessor UserAccessor

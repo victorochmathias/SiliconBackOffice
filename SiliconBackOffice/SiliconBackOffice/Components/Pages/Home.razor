@@ -1,0 +1,15 @@
+﻿@page "/"
+@using Microsoft.AspNetCore.Authorization
+@using SiliconBackOffice.Components.Sections
+@attribute [Authorize]
+<PageTitle>Admin Portal</PageTitle>
+
+<div class="wrapper">
+    <Header />
+    <AdminPortal />
+</div>
+
+
+<head>
+    <link rel="stylesheet" href="/css/app.min.css" />
+</head>

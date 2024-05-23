@@ -1,0 +1,27 @@
+.container {
+    .header {
+        display: grid;
+        grid-template-columns: 1fr 3fr 1fr;
+        justify-content: center;
+        text-align: center;
+        padding-top: 20px;
+        padding-bottom: 40px;
+
+        .logogo {
+
+            .logo {
+            }
+        }
+
+        .username {
+
+
+            h2 {
+            }
+        }
+
+        .buttton {
+            width: 150px;
+        }
+    }
+}
