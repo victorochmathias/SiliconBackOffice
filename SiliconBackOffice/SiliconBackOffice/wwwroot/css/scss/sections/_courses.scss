@@ -1,0 +1,35 @@
+.courses-page {
+    .courses {
+        .container {
+            .header {
+                h1 {
+                    // Styles for the header
+                    margin-bottom: 20px; // Adjust the spacing below the header
+                    color: green;
+                }
+            }
+
+            .course-list {
+                display: flex;
+                flex-direction: column; // Stack items vertically
+                gap: 10px; // Space between items
+
+                .course {
+                    display: flex;
+                    flex-direction: column;
+                    border: 1px solid #ddd;
+                    padding: 10px;
+                    border-radius: 5px;
+                    background-color: #f9f9f9;
+
+                    .course-title {
+                        margin: 0;
+                        font-size: 18px;
+                        font-weight: bold;
+
+                    }
+                }
+            }
+        }
+    }
+}

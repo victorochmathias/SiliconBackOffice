@@ -701,3 +701,26 @@ form .validation-message {
   background-color: #EFF2FC;
   min-height: 87vh;
 }
+
+.courses-page .courses .container .header h1 {
+  margin-bottom: 20px;
+  color: green;
+}
+.courses-page .courses .container .course-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.courses-page .courses .container .course-list .course {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #ddd;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+.courses-page .courses .container .course-list .course .course-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: bold;
+}
