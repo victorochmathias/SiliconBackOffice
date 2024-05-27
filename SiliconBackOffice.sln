@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SiliconBackOffice", "Silico
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SiliconBackOffice.Client", "SiliconBackOffice\SiliconBackOffice.Client\SiliconBackOffice.Client.csproj", "{5D70A5EC-1B8B-4156-9260-C48AE7CF3C61}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SiliconBackOffice.Business", "SiliconBackOffice.Business\SiliconBackOffice.Business.csproj", "{6C2D7559-E52B-4D96-974D-7E6360458C16}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SiliconBackOffice.Business", "SiliconBackOffice.Business\SiliconBackOffice.Business.csproj", "{6C2D7559-E52B-4D96-974D-7E6360458C16}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
