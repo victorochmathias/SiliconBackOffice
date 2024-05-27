@@ -4,7 +4,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SiliconBackOffice.Components;
 using SiliconBackOffice.Components.Account;
+using SiliconBackOffice.Contexts;
 using SiliconBackOffice.Data;
+using SiliconBackOffice.Entities;
+using SiliconBackOffice.Services;
 using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,6 +22,9 @@ builder.Services.AddCascadingAuthenticationState();
 builder.Services.AddScoped<IdentityUserAccessor>();
 builder.Services.AddScoped<IdentityRedirectManager>();
 builder.Services.AddScoped<AuthenticationStateProvider, PersistingRevalidatingAuthenticationStateProvider>();
+builder.Services.AddScoped<UserService>();
+
+
 
 builder.Services.AddAuthentication(options =>
     {
@@ -26,6 +32,9 @@ builder.Services.AddAuthentication(options =>
         options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
     })
     .AddIdentityCookies();
+var secondConnectionString = builder.Configuration.GetConnectionString("Victors-SqlServer") ?? throw new InvalidOperationException("Connection string 'Victors-SqlServer' not found.");
+builder.Services.AddDbContext<DataContext>(options =>
+    options.UseSqlServer(secondConnectionString));
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>

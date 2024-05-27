@@ -22,6 +22,9 @@
 @using SiliconBackOffice.Data
 @using Microsoft.AspNetCore.Authentication
 @using Microsoft.AspNetCore.Mvc
+@using SiliconBackOffice.Services
+@using SiliconBackOffice.Entities
+
 
 @inject HttpClient http
 @inject NavigationManager NavigationManager
@@ -30,3 +33,5 @@
 @inject UserManager<ApplicationUser> UserManager
 @inject SignInManager<ApplicationUser> SignInManager
 @inject IdentityUserAccessor UserAccessor
+@inject UserService userService
+

@@ -1,0 +1,122 @@
+﻿@page "/editpage/{Id}"
+@using Microsoft.EntityFrameworkCore.Metadata.Internal
+
+
+
+<Header />
+<div class="admin-portal">
+    <div class="side-bar">
+        <a href="/users">Users</a>
+        <NavLink href="/courses">Courses</NavLink>
+        <a href="#">Subscribers</a>
+    </div>
+    <div class="content">
+        @if (user == null)
+        {
+            <p>Loading...</p>
+        }
+        else
+        {
+            <div class="my-content">
+
+                <EditForm FormName="updateForm" Model="updateForm" OnValidSubmit="OnValidSubmit" asp-route-returnUrl="@ReturnUrl" method="post" novalidate>
+                    <DataAnnotationsValidator />
+                    @if (!string.IsNullOrEmpty(StatusMessage))
+                    {
+                        <div class="error-msg">
+                            @StatusMessage
+                        </div>
+                    }
+                    <h2>You are now editing: @user.Email</h2>
+
+                    <div class="contentform">
+                        <div id="form-firstname" class="input-group">
+                            <label>First name</label>
+                            <InputText @bind-Value="updateForm.FirstName" />
+                            <ValidationMessage For="() => updateForm.FirstName" />
+                        </div>
+                        <div id="form-lastname" class="input-group">
+                            <label>Last name</label>
+                            <InputText @bind-Value="updateForm.LastName" />
+                            <ValidationMessage For="() => updateForm.LastName" />
+                        </div>
+                        <div id="form-email" class="input-group">
+                            <label>Email</label>
+                            <InputText @bind-Value="updateForm.Email" type="email" />
+                            <ValidationMessage For="() => updateForm.Email" />
+                        </div>
+                        <button id="form-submit" class="btn-theme-s" type="submit">Update</button>
+                    </div>
+                </EditForm>
+            </div>
+            
+        }
+    </div>
+</div>
+
+
+@code {
+    [Parameter]
+    public string Id { get; set; }
+
+
+    [SupplyParameterFromQuery]
+    private string StatusMessage { get; set; } = "";
+
+    [SupplyParameterFromQuery]
+    private string? ReturnUrl { get; set; }
+
+    [SupplyParameterFromForm]
+    private UpdateFormModel updateForm { get; set; } = new();
+
+    private AspNetUser user;
+
+    protected override async Task OnInitializedAsync()
+    {
+        user = await userService.GetUserByIdAsync(Id);
+    }
+
+
+    public async Task OnValidSubmit(EditContext editContext)
+    {
+        var alreadyExists = await userService.GetUserByEmailAsync(updateForm.Email);
+        if (alreadyExists != null && alreadyExists.Id != Id)
+        {
+            StatusMessage = "An account with this email address already exists.";
+            return;
+        }
+
+        // Get the existing user
+        var userEntity = await userService.GetUserByIdAsync(Id);
+        if (userEntity == null)
+        {
+            StatusMessage = "User not found.";
+            return;
+        }
+
+        var success = await userService.UpdateUserAsync(userEntity.Id, updateForm);
+        if (success)
+        {
+            NavigationManager.NavigateTo("/users");
+        }
+        else
+        {
+            StatusMessage = "error. please try again.";
+        }
+    }
+
+    // private async Task SaveUser()
+    // {
+    //     await userService.UpdateUserAsync(user);
+    //     // Redirect or show a message after saving
+    // }
+
+    public class UpdateFormModel
+    {
+        
+        public string? FirstName { get; set; }
+        public string? LastName { get; set; }
+        public string? Email { get; set; }
+        public string? Phone { get; set; }
+    }
+}
