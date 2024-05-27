@@ -1,0 +1,169 @@
+﻿@using SiliconBackOffice.Business.Models
+@using System.Text.Json
+@inject HttpClient Http
+
+<h3>Create Course Section</h3>
+<p>HEJHEJHEJ</p>
+
+<EditForm Model="@course" OnValidSubmit="CreateCourse" FormName="createCourseForm">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div>
+        <label>Title:</label>
+        <InputText @bind-Value="course.Title" />
+    </div>
+    <div>
+        <label>Image URI:</label>
+        <InputText @bind-Value="course.ImageUri" />
+    </div>
+    <div>
+        <label>Image Header URI:</label>
+        <InputText @bind-Value="course.ImageHeaderUri" />
+    </div>
+    <div>
+        <label>Is Bestseller:</label>
+        <InputCheckbox @bind-Value="course.IsBestseller" />
+    </div>
+    <div>
+        <label>Is Digital:</label>
+        <InputCheckbox @bind-Value="course.IsDigital" />
+    </div>
+    <div>
+        <label>Categories (comma-separated):</label>
+        <InputText @bind-Value="categories" />
+    </div>
+    <div>
+        <label>Ingress:</label>
+        <InputText @bind-Value="course.Ingress" />
+    </div>
+    <div>
+        <label>Star Rating:</label>
+        <InputNumber @bind-Value="course.StarRating" />
+    </div>
+    <div>
+        <label>Reviews:</label>
+        <InputText @bind-Value="course.Reviews" />
+    </div>
+    <div>
+        <label>Likes In Percent:</label>
+        <InputText @bind-Value="course.LikesInProcent" />
+    </div>
+    <div>
+        <label>Likes:</label>
+        <InputText @bind-Value="course.Likes" />
+    </div>
+    <div>
+        <label>Hours:</label>
+        <InputText @bind-Value="course.Hours" />
+    </div>
+    <div>
+        <label>Author Name:</label>
+        <InputText @bind-Value="authorName" />
+    </div>
+    <div>
+        <label>Price:</label>
+        <InputNumber @bind-Value="course.Prices.Price" />
+    </div>
+    <div>
+        <label>Currency:</label>
+        <InputText @bind-Value="course.Prices.Currency" />
+    </div>
+    <div>
+        <label>Discount:</label>
+        <InputNumber @bind-Value="course.Prices.Discount" />
+    </div>
+    <div>
+        <label>Description:</label>
+        <InputText @bind-Value="course.Content.Description" />
+    </div>
+    <div>
+        <label>Includes (comma-separated):</label>
+        <InputText @bind-Value="includes" />
+    </div>
+    <div>
+        <h4>Program Details:</h4>
+        @foreach (var detail in course.Content.ProgramDetails)
+        {
+            <div>
+                <label>Id @detail.Id:</label>
+                <br />
+                <label>Title:</label>
+                <InputText @bind-Value="detail.Title" />
+                <br />
+                <label>Description:</label>
+                <InputText @bind-Value="detail.Description" />
+                <br />
+            </div>
+        }
+    </div>
+
+    <button type="submit">Create Course</button>
+</EditForm>
+
+@if (!string.IsNullOrEmpty(jsonOutput))
+{
+    <h3>JSON Output:</h3>
+    <pre>@jsonOutput</pre>
+}
+
+@code {
+    private CreateCourseCardModel course = new CreateCourseCardModel
+        {
+            Prices = new PricesModel(),
+            Content = new ContentModel
+            {
+                ProgramDetails = new List<ProgramDetailItemModel>
+                {
+                    new ProgramDetailItemModel { Id = 1 },
+                    new ProgramDetailItemModel { Id = 2 },
+                    new ProgramDetailItemModel { Id = 3 },
+                    new ProgramDetailItemModel { Id = 4 },
+                    new ProgramDetailItemModel { Id = 5 },
+                    new ProgramDetailItemModel { Id = 6 }
+                }
+            },
+            Authors = new List<AuthorModel>()
+        };
+    private string? categories;
+    private string? authorName;
+    private string? includes;
+    private string? jsonOutput;
+
+    private async Task CreateCourse()
+    {
+        course.Categories = categories?.Split(',').Select(c => c.Trim()).ToArray();
+        course.Authors = new List<AuthorModel> { new AuthorModel { Name = authorName } };
+        course.Content.Includes = includes?.Split(',').Select(i => i.Trim()).ToArray();
+
+        var request = new
+        {
+            query = "mutation ($input: CourseCreateRequestInput!) { createCourse(input: $input) { id title } }",
+            variables = new { input = course }
+        };
+
+        jsonOutput = JsonSerializer.Serialize(request, new JsonSerializerOptions { WriteIndented = true });
+
+        Console.WriteLine("JSON request: " + jsonOutput);
+
+        try
+        {
+            var response = await Http.PostAsJsonAsync("https://courseprovider-silicon-backend.azurewebsites.net/api/graphql", request);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var responseContent = await response.Content.ReadAsStringAsync();
+                jsonOutput += "Success: " + responseContent;
+            }
+            else
+            {
+                var responseContent = await response.Content.ReadAsStringAsync();
+                jsonOutput += "Error: " + responseContent;
+            }
+        }
+        catch (Exception ex)
+        {
+            jsonOutput += "Exception: " + ex.Message;
+        }
+    }
+}
