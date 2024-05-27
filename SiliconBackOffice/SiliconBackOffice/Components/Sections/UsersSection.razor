@@ -1,0 +1,55 @@
+﻿
+@rendermode InteractiveServer
+
+
+
+
+<section class="users">
+    <div class="container">
+        <div class="header">
+            <h1>Users</h1>
+        </div>
+        <div class="user-list">
+            @if(userList == null)
+            {
+                <p>Loading...</p>
+            }
+            else
+            {
+                foreach (var item in userList)
+                {
+                    <div class="user">
+                        <h5 class="user-title">@item.Email</h5>
+                        <div class="admin-btns-field">
+                            <NavLink class="my-update-btn" href="@($"/editpage/{item.Id}")"><i class="fa-solid fa-pen-to-square"></i></NavLink>
+                            <button class="my-delete-btn" type="button" @onclick="@(async () => await OnDeleteUser(item.Id))"><i class="fa-sharp fa-solid fa-circle-xmark"></i></button>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</section>
+
+@code {
+
+    private IEnumerable<AspNetUser>? userList;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadUsers();
+    }
+
+    private async Task LoadUsers()
+    {
+        userList = await userService.GetAllUsersAsync();
+
+    }
+
+    private async Task OnDeleteUser(string userId)
+    {
+        await userService.DeleteUserAsync(userId);
+        await LoadUsers();
+    }
+
+}

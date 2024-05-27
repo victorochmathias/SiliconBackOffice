@@ -1,12 +1,20 @@
-﻿@using Microsoft.AspNetCore.Components
+﻿@page "/users"
 
+
+
+<Header />
 <div class="admin-portal">
     <div class="side-bar">
-        <a href="/users">Users</a>
+        <a href="#">Users</a>
         <NavLink href="/courses">Courses</NavLink>
         <a href="#">Subscribers</a>
     </div>
     <div class="content">
-        <h1>Welcome</h1>
+        <UsersSection />
     </div>
 </div>
+
+
+@code {
+
+}

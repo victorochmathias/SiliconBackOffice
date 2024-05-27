@@ -1,0 +1,21 @@
+.my-content {
+    display: flex;
+    justify-content: center;
+    background-color: $gray-200;
+
+    form {
+        width: 600px;
+        background-color: $gray-200;
+
+        h2 {
+            color: #000000;
+            background-color: $gray-200;
+            margin: 0;
+        }
+
+        .contentform {
+            
+            background-color: $gray-200;
+        }
+    }
+}

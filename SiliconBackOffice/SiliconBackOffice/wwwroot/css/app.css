@@ -724,3 +724,83 @@ form .validation-message {
   font-size: 18px;
   font-weight: bold;
 }
+
+.users .container .header h1 {
+  margin-bottom: 20px;
+  color: green;
+}
+.users .container .user-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.users .container .user-list .user {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #ddd;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+.users .container .user-list .user .user-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: bold;
+}
+.users .container .user-list .user .admin-btns-field {
+  display: flex;
+  gap: 0.5rem;
+  position: absolute;
+  right: 10px;
+}
+.users .container .user-list .user .admin-btns-field .my-delete-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f55a5a;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  width: 2rem;
+  height: 2rem;
+}
+.users .container .user-list .user .admin-btns-field .my-delete-btn i {
+  color: white;
+}
+.users .container .user-list .user .admin-btns-field .my-update-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #6366F1;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  width: 2rem;
+  height: 2rem;
+}
+.users .container .user-list .user .admin-btns-field .my-update-btn i {
+  color: white;
+}
+
+.my-content {
+  display: flex;
+  justify-content: center;
+  background-color: #EFF2FC;
+}
+.my-content form {
+  width: 600px;
+  background-color: #EFF2FC;
+}
+.my-content form h2 {
+  color: #000000;
+  background-color: #EFF2FC;
+  margin: 0;
+}
+.my-content form .contentform {
+  background-color: #EFF2FC;
+}
