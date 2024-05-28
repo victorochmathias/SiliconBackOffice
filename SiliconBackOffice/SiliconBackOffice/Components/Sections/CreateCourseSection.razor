@@ -5,29 +5,29 @@
 <h3>Create Course Section</h3>
 <p>HEJHEJHEJ</p>
 
-<EditForm Model="@course" OnValidSubmit="CreateCourse" FormName="createCourseForm">
+<EditForm Model="courseForm" OnValidSubmit="CreateCourse" FormName="createCourseForm" asp-route-returnUrl="@ReturnUrl">
     <DataAnnotationsValidator />
     <ValidationSummary />
 
     <div>
         <label>Title:</label>
-        <InputText @bind-Value="course.Title" />
+        <InputText @bind-Value="courseForm.Title" />
     </div>
     <div>
         <label>Image URI:</label>
-        <InputText @bind-Value="course.ImageUri" />
+        <InputText @bind-Value="courseForm.ImageUri" />
     </div>
     <div>
         <label>Image Header URI:</label>
-        <InputText @bind-Value="course.ImageHeaderUri" />
+        <InputText @bind-Value="courseForm.ImageHeaderUri" />
     </div>
     <div>
         <label>Is Bestseller:</label>
-        <InputCheckbox @bind-Value="course.IsBestseller" />
+        <InputCheckbox @bind-Value="courseForm.IsBestseller" />
     </div>
     <div>
         <label>Is Digital:</label>
-        <InputCheckbox @bind-Value="course.IsDigital" />
+        <InputCheckbox @bind-Value="courseForm.IsDigital" />
     </div>
     <div>
         <label>Categories (comma-separated):</label>
@@ -35,27 +35,27 @@
     </div>
     <div>
         <label>Ingress:</label>
-        <InputText @bind-Value="course.Ingress" />
+        <InputText @bind-Value="courseForm.Ingress" />
     </div>
     <div>
         <label>Star Rating:</label>
-        <InputNumber @bind-Value="course.StarRating" />
+        <InputNumber @bind-Value="courseForm.StarRating" />
     </div>
     <div>
         <label>Reviews:</label>
-        <InputText @bind-Value="course.Reviews" />
+        <InputText @bind-Value="courseForm.Reviews" />
     </div>
     <div>
         <label>Likes In Percent:</label>
-        <InputText @bind-Value="course.LikesInProcent" />
+        <InputText @bind-Value="courseForm.LikesInProcent" />
     </div>
     <div>
         <label>Likes:</label>
-        <InputText @bind-Value="course.Likes" />
+        <InputText @bind-Value="courseForm.Likes" />
     </div>
     <div>
         <label>Hours:</label>
-        <InputText @bind-Value="course.Hours" />
+        <InputText @bind-Value="courseForm.Hours" />
     </div>
     <div>
         <label>Author Name:</label>
@@ -63,19 +63,19 @@
     </div>
     <div>
         <label>Price:</label>
-        <InputNumber @bind-Value="course.Prices.Price" />
+        <InputNumber @bind-Value="courseForm.Prices.Price" />
     </div>
     <div>
         <label>Currency:</label>
-        <InputText @bind-Value="course.Prices.Currency" />
+        <InputText @bind-Value="courseForm.Prices.Currency" />
     </div>
     <div>
         <label>Discount:</label>
-        <InputNumber @bind-Value="course.Prices.Discount" />
+        <InputNumber @bind-Value="courseForm.Prices.Discount" />
     </div>
     <div>
         <label>Description:</label>
-        <InputText @bind-Value="course.Content.Description" />
+        <InputText @bind-Value="courseForm.Content.Description" />
     </div>
     <div>
         <label>Includes (comma-separated):</label>
@@ -83,7 +83,7 @@
     </div>
     <div>
         <h4>Program Details:</h4>
-        @foreach (var detail in course.Content.ProgramDetails)
+        @* @foreach (var detail in courseForm.Content.ProgramDetails)
         {
             <div>
                 <label>Id @detail.Id:</label>
@@ -95,7 +95,7 @@
                 <InputText @bind-Value="detail.Description" />
                 <br />
             </div>
-        }
+        } *@
     </div>
 
     <button type="submit">Create Course</button>
@@ -108,23 +108,12 @@
 }
 
 @code {
-    private CreateCourseCardModel course = new CreateCourseCardModel
-        {
-            Prices = new PricesModel(),
-            Content = new ContentModel
-            {
-                ProgramDetails = new List<ProgramDetailItemModel>
-                {
-                    new ProgramDetailItemModel { Id = 1 },
-                    new ProgramDetailItemModel { Id = 2 },
-                    new ProgramDetailItemModel { Id = 3 },
-                    new ProgramDetailItemModel { Id = 4 },
-                    new ProgramDetailItemModel { Id = 5 },
-                    new ProgramDetailItemModel { Id = 6 }
-                }
-            },
-            Authors = new List<AuthorModel>()
-        };
+    [SupplyParameterFromForm]
+    private CreateCourseCardModel1 courseForm { get; set; } = new();
+
+    [SupplyParameterFromQuery]
+    private string? ReturnUrl { get; set; }
+
     private string? categories;
     private string? authorName;
     private string? includes;
@@ -132,14 +121,14 @@
 
     private async Task CreateCourse()
     {
-        course.Categories = categories?.Split(',').Select(c => c.Trim()).ToArray();
-        course.Authors = new List<AuthorModel> { new AuthorModel { Name = authorName } };
-        course.Content.Includes = includes?.Split(',').Select(i => i.Trim()).ToArray();
+        courseForm.Categories = categories?.Split(',').Select(c => c.Trim()).ToArray();
+        courseForm.Authors = new List<AuthorModel1> { new AuthorModel1 { Name = authorName } };
+        courseForm.Content.Includes = includes?.Split(',').Select(i => i.Trim()).ToArray();
 
         var request = new
         {
             query = "mutation ($input: CourseCreateRequestInput!) { createCourse(input: $input) { id title } }",
-            variables = new { input = course }
+            variables = new { input = courseForm }
         };
 
         jsonOutput = JsonSerializer.Serialize(request, new JsonSerializerOptions { WriteIndented = true });
@@ -165,5 +154,72 @@
         {
             jsonOutput += "Exception: " + ex.Message;
         }
+    }
+
+    public class CreateCourseCardModel1
+    {
+        public CreateCourseCardModel1()
+        {
+            Prices = new PricesModel1();
+            Content = new ContentModel1
+                {
+                    ProgramDetails = new List<ProgramDetailItemModel1>
+                {
+                    new ProgramDetailItemModel1 { Id = 1 },
+                    new ProgramDetailItemModel1 { Id = 2 },
+                    new ProgramDetailItemModel1 { Id = 3 },
+                    new ProgramDetailItemModel1 { Id = 4 },
+                    new ProgramDetailItemModel1 { Id = 5 },
+                    new ProgramDetailItemModel1 { Id = 6 }
+                }
+                };
+        }
+
+        public string? ImageUri { get; set; }
+        public string? ImageHeaderUri { get; set; }
+        public bool IsBestseller { get; set; }
+        public bool IsDigital { get; set; }
+        public string[]? Categories { get; set; }
+        public string? Title { get; set; }
+        public string? Ingress { get; set; }
+        public decimal StarRating { get; set; }
+        public string? Reviews { get; set; }
+        public string? LikesInProcent { get; set; }
+        public string? Likes { get; set; }
+        public string? Hours { get; set; }
+        public List<AuthorModel1>? Authors { get; set; }
+        public PricesModel1? Prices { get; set; }
+        public ContentModel1? Content { get; set; }
+    }
+
+    public class AuthorModel1
+    {
+        public string? Name { get; set; }
+    }
+
+    public class PricesModel1
+    {
+        public string? Currency { get; set; }
+        public decimal Price { get; set; }
+        public decimal Discount { get; set; }
+    }
+
+    public class ContentModel1
+    {
+        public ContentModel1()
+        {
+            ProgramDetails = new List<ProgramDetailItemModel1>();
+        }
+
+        public string? Description { get; set; }
+        public string[]? Includes { get; set; }
+        public List<ProgramDetailItemModel1>? ProgramDetails { get; set; }
+    }
+
+    public class ProgramDetailItemModel1
+    {
+        public int Id { get; set; }
+        public string? Title { get; set; }
+        public string? Description { get; set; }
     }
 }
