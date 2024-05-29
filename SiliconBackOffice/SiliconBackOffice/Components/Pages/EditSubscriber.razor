@@ -1,4 +1,4 @@
-﻿@page "/editadmin/{Id}"
+﻿@page "/editsubscriber/{Email}"
 @using Microsoft.EntityFrameworkCore.Metadata.Internal
 
 
@@ -13,7 +13,7 @@
         <NavLink href="/subscribers">Subscribers</NavLink>
     </div>
     <div class="content">
-        @if (user == null)
+        @if (sub == null)
         {
             <p>Loading...</p>
         }
@@ -29,7 +29,7 @@
                             @StatusMessage
                         </div>
                     }
-                    <h2>You are now editing: @user.Email</h2>
+                    <h2>You are now editing: @sub.Email</h2>
 
                     <div class="contentform">
                         <div id="form-email" class="input-group">
@@ -49,7 +49,7 @@
 
 @code {
     [Parameter]
-    public string Id { get; set; }
+    public string Email { get; set; }
 
 
     [SupplyParameterFromQuery]
@@ -61,38 +61,38 @@
     [SupplyParameterFromForm]
     private UpdateFormModel updateForm { get; set; } = new();
 
-    private ApplicationUser user;
+    private Subscriber sub;
 
     protected override async Task OnInitializedAsync()
     {
-        user = await adminService.GetAdminByIdAsync(Id);
+        sub = await subscriberService.GetSubscriberByEmailAsync(Email);
 
     }
 
 
     public async Task OnValidSubmit(EditContext editContext)
     {
-        var alreadyExists = await adminService.GetAdminByEmailAsync(updateForm.Email);
-        if (alreadyExists != null && alreadyExists.Id != Id)
+        var alreadyExists = await subscriberService.GetSubscriberByEmailAsync(updateForm.Email);
+        if (alreadyExists != null && alreadyExists.Email != Email)
         {
             StatusMessage = "An account with this email address already exists.";
             return;
         }
 
         // Get the existing user
-        var userEntity = await adminService.GetAdminByIdAsync(Id);
-        
+        var userEntity = await subscriberService.GetSubscriberByEmailAsync(Email);
+
         if (userEntity == null)
         {
             StatusMessage = "User not found.";
             return;
         }
 
-        
-        var success = await adminService.UpdateAdminAsync(userEntity.Id, updateForm);
+
+        var success = await subscriberService.UpdateSubscriberAsync(userEntity.Email, updateForm);
         if (success)
         {
-            NavigationManager.NavigateTo("/admins");
+            NavigationManager.NavigateTo("/");
         }
         else
         {
