@@ -1,0 +1,50 @@
+﻿@rendermode InteractiveServer
+
+
+<section class="subscribers">
+    <div class="container">
+        <div class="header">
+            <h1>Subscribers</h1>
+        </div>
+        <div class="sub-list">
+            @if (subList == null)
+            {
+                <p>Loading...</p>
+            }
+            else
+            {
+                foreach (var item in subList)
+                {
+                    <div class="sub">
+                        <h5 class="user-title">@item.Email</h5>
+                        <div class="admin-btns-field">
+                            @* <NavLink class="my-update-btn" href="@($"/editsubscriber/{item.Email}")"><i class="fa-solid fa-pen-to-square"></i></NavLink> *@
+                            <button class="my-delete-btn" type="button" @onclick="@(async () => await OnDeleteSubscriber(item.Email))"><i class="fa-sharp fa-solid fa-circle-xmark"></i></button>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</section>
+
+@code {
+    public IEnumerable<Subscriber>? subList;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadSubscribers();
+    }
+
+    private async Task LoadSubscribers()
+    {
+        subList = await subscriberService.GetAllSubscribersAsync();
+
+    }
+
+    private async Task OnDeleteSubscriber(string email)
+    {
+        await subscriberService.DeleteSubscriberAsync(email);
+        await LoadSubscribers();
+    }
+}
