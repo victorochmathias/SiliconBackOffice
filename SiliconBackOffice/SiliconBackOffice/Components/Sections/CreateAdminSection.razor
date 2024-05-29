@@ -1,0 +1,120 @@
+﻿@using Microsoft.EntityFrameworkCore
+
+<div class="my-create-content">
+
+    <EditForm FormName="createForm" Model="createForm" OnValidSubmit="OnValidSubmit" asp-route-returnUrl="@ReturnUrl" method="post" novalidate>
+        <DataAnnotationsValidator />
+        @if (!string.IsNullOrEmpty(StatusMessage))
+        {
+            <div class="confirm-msg">
+                @StatusMessage
+            </div>
+        }
+        @if (!string.IsNullOrEmpty(ErrorStatusMessage))
+        {
+            <div class="error-msg">
+                @ErrorStatusMessage
+            </div>
+        }
+        <h2>Create new admin</h2>
+
+        <div class="contentform">
+            <div id="form-email" class="input-group">
+                <label>Email</label>
+                <InputText @bind-Value="createForm.Email" type="email" />
+                <ValidationMessage For="() => createForm.Email" />
+            </div>
+            <div id="form-password" class="input-group">
+                <label>Password</label>
+                <InputText @bind-Value="createForm.Password" type="password" />
+                <ValidationMessage For="() => createForm.Password" />
+            </div>
+            <div id="form-confirm-password" class="input-group">
+                <label>Confirm Password</label>
+                <InputText @bind-Value="createForm.ConfirmPassword" type="password" />
+                <ValidationMessage For="() => createForm.ConfirmPassword" />
+            </div>
+            <div id="form-role" class="input-group">
+                <label>Role</label>
+                <InputSelect @bind-Value="createForm.SelectedRole">
+                    @foreach (var role in roles)
+                    {
+                        <option value="@role.Name">@role.Name</option>
+                    }
+                </InputSelect>
+                <ValidationMessage For="() => createForm.SelectedRole" />
+            </div>
+            <button id="form-submit" class="btn-theme-s" type="submit">Create!</button>
+        </div>
+    </EditForm>
+</div>
+
+@code {
+
+    private List<IdentityRole> roles = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        roles = await RoleManager.Roles.ToListAsync();
+    }
+
+    [SupplyParameterFromQuery]
+    private string StatusMessage { get; set; } = "";
+
+    [SupplyParameterFromQuery]
+    private string ErrorStatusMessage { get; set; } = "";
+
+    [SupplyParameterFromQuery]
+    private string? ReturnUrl { get; set; }
+
+    [SupplyParameterFromForm]
+    private CreateFormModel createForm { get; set; } = new();
+
+    public async Task OnValidSubmit(EditContext editContext)
+    {
+        var user = new ApplicationUser
+            {
+                Email = createForm.Email,
+                UserName = createForm.Email,
+                EmailConfirmed = true,
+            };
+
+
+        // var result = await adminService.CreateAdmin(createForm.Email, hashedPassword);
+        var result = await UserManager.CreateAsync(user, createForm.Password);
+        if (!result.Succeeded)
+        {
+
+            ErrorStatusMessage = "Could not create a admin with that email. Please try again.";
+        }
+        else
+        {
+            await UserManager.AddToRoleAsync(user, createForm.SelectedRole);
+            StatusMessage = "Admin successfully created.";
+        }
+    }
+
+
+    public class CreateFormModel
+    {
+
+        [Required]
+        [EmailAddress]
+        public string? Email { get; set; }
+
+        [Required]
+        [DataType(DataType.Password)]
+        public string? Password { get; set; }
+
+        [Required]
+        [DataType(DataType.Password)]
+        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        public string? ConfirmPassword { get; set; }
+
+        [Required]
+        public string SelectedRole { get; set; }
+    }
+
+
+    
+}

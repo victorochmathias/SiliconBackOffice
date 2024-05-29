@@ -1,0 +1,108 @@
+﻿@page "/editadmin/{Id}"
+@using Microsoft.EntityFrameworkCore.Metadata.Internal
+
+
+
+<Header />
+<div class="admin-portal">
+    <div class="side-bar">
+        <NavLink href="/users">Users TEST</NavLink>
+        <NavLink href="/courses">Courses</NavLink>
+        <NavLink href="/createcourse">Create Course</NavLink>
+        <a href="#">Subscribers</a>
+    </div>
+    <div class="content">
+        @if (user == null)
+        {
+            <p>Loading...</p>
+        }
+        else
+        {
+            <div class="my-content">
+
+                <EditForm FormName="updateForm" Model="updateForm" OnValidSubmit="OnValidSubmit" asp-route-returnUrl="@ReturnUrl" method="post" novalidate>
+                    <DataAnnotationsValidator />
+                    @if (!string.IsNullOrEmpty(StatusMessage))
+                    {
+                        <div class="error-msg">
+                            @StatusMessage
+                        </div>
+                    }
+                    <h2>You are now editing: @user.Email</h2>
+
+                    <div class="contentform">
+                        <div id="form-email" class="input-group">
+                            <label>Email</label>
+                            <InputText @bind-Value="updateForm.Email" type="email" />
+                            <ValidationMessage For="() => updateForm.Email" />
+                        </div>
+                        <button id="form-submit" class="btn-theme-s" type="submit">Update</button>
+                    </div>
+                </EditForm>
+            </div>
+
+        }
+    </div>
+</div>
+
+
+@code {
+    [Parameter]
+    public string Id { get; set; }
+
+
+    [SupplyParameterFromQuery]
+    private string StatusMessage { get; set; } = "";
+
+    [SupplyParameterFromQuery]
+    private string? ReturnUrl { get; set; }
+
+    [SupplyParameterFromForm]
+    private UpdateFormModel updateForm { get; set; } = new();
+
+    private ApplicationUser user;
+
+    protected override async Task OnInitializedAsync()
+    {
+        user = await adminService.GetAdminByIdAsync(Id);
+
+    }
+
+
+    public async Task OnValidSubmit(EditContext editContext)
+    {
+        var alreadyExists = await adminService.GetAdminByEmailAsync(updateForm.Email);
+        if (alreadyExists != null && alreadyExists.Id != Id)
+        {
+            StatusMessage = "An account with this email address already exists.";
+            return;
+        }
+
+        // Get the existing user
+        var userEntity = await adminService.GetAdminByIdAsync(Id);
+        
+        if (userEntity == null)
+        {
+            StatusMessage = "User not found.";
+            return;
+        }
+
+        
+        var success = await adminService.UpdateAdminAsync(userEntity.Id, updateForm);
+        if (success)
+        {
+            NavigationManager.NavigateTo("/admins");
+        }
+        else
+        {
+            StatusMessage = "error. please try again.";
+        }
+    }
+
+
+
+    public class UpdateFormModel
+    {
+        public string? Email { get; set; }
+    }
+}
