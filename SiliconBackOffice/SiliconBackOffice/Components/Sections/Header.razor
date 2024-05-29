@@ -9,7 +9,8 @@
         </div>
 
         <div class="username">
-            <h2>Hello, @username!</h2>
+            @* <h2>Hello, @username!</h2> *@
+            <h2>Silikon Backoffice</h2>
         </div>
         <div class="buttton">
             <form action="/Logout" method="post">
@@ -34,9 +35,9 @@
 
     private string currentUrl;
 
-    protected override async Task OnInitializedAsync()
-    {
-        user = await UserAccessor.GetRequiredUserAsync(HttpContext);
-        username = await UserManager.GetUserNameAsync(user);
-    }
+    // protected override async Task OnInitializedAsync() //Plockade bort pga att den krockar med adminUpdate /victor
+    // {
+    //     user = await UserAccessor.GetRequiredUserAsync(HttpContext);
+    //     username = await UserManager.GetUserNameAsync(user);
+    // }
 }

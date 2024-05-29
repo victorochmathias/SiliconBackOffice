@@ -1,0 +1,55 @@
+﻿@rendermode InteractiveServer
+
+
+
+
+<section class="users">
+    <div class="container">
+        <div class="header">
+            <h1>Admins</h1>
+        </div>
+        <div class="user-list">
+            @if (adminList == null)
+            {
+                <p>Loading...</p>
+            }
+            else
+            {
+                foreach (var item in adminList)
+                {
+                    <div class="user">
+                        <h5 class="user-title">@item.Email</h5>
+                        <div class="admin-btns-field">
+                            <NavLink class="my-update-btn" href="@($"/editadmin/{item.Id}")"><i class="fa-solid fa-pen-to-square"></i></NavLink>
+                            <button class="my-delete-btn" type="button" @onclick="@(async () => await OnDeleteAdmin(item.Id))"><i class="fa-sharp fa-solid fa-circle-xmark"></i></button>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+        <NavLink class="btn-theme" href="/createadmin">Create admin here!<i class="fa-solid fa-user-plus"></i></NavLink>
+    </div>
+</section>
+
+@code {
+
+    private IEnumerable<ApplicationUser>? adminList;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadAdmins();
+    }
+
+    private async Task LoadAdmins()
+    {
+        adminList = await adminService.GetAllAdminsAsync();
+
+    }
+
+    private async Task OnDeleteAdmin(string userId)
+    {
+        await adminService.DeleteAdminAsync(userId);
+        await LoadAdmins();
+    }
+
+}
