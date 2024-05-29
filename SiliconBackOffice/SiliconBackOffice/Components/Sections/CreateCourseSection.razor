@@ -5,7 +5,7 @@
 <h3>Create Course Section</h3>
 <p>HEJHEJHEJ</p>
 
-<EditForm Model="courseForm" OnValidSubmit="CreateCourse" FormName="createCourseForm" asp-route-returnUrl="@ReturnUrl">
+<EditForm Model="courseForm" OnValidSubmit="CreateCourse" FormName="createCourseForm" asp-route-returnUrl="@ReturnUrl" OnInitialized="InitializeForm">
     <DataAnnotationsValidator />
     <ValidationSummary />
 
@@ -31,7 +31,7 @@
     </div>
     <div>
         <label>Categories (comma-separated):</label>
-        <InputText @bind-Value="categories" />
+        <InputText @bind-Value="courseForm.Categories" />
     </div>
     <div>
         <label>Ingress:</label>
@@ -59,8 +59,19 @@
     </div>
     <div>
         <label>Author Name:</label>
-        <InputText @bind-Value="authorName" />
+        @if (courseForm.Authors != null && courseForm.Authors.Any())
+        {
+            <InputText @bind-Value="courseForm.Authors[0].Name" />
+        }
+        else
+        {
+            <InputText @bind-Value="authorName" />
+        }
     </div>
+
+
+
+
     <div>
         <label>Price:</label>
         <InputNumber @bind-Value="courseForm.Prices.Price" />
@@ -79,7 +90,7 @@
     </div>
     <div>
         <label>Includes (comma-separated):</label>
-        <InputText @bind-Value="includes" />
+        <InputText @bind-Value="courseForm.Content.Includes" />
     </div>
     <div>
         <h4>Program Details:</h4>
@@ -110,20 +121,15 @@
 @code {
     [SupplyParameterFromForm]
     private CreateCourseCardModel1 courseForm { get; set; } = new();
+    private string authorName = "";
 
     [SupplyParameterFromQuery]
     private string? ReturnUrl { get; set; }
 
-    private string? categories;
-    private string? authorName;
-    private string? includes;
     private string? jsonOutput;
 
     private async Task CreateCourse()
     {
-        courseForm.Categories = categories?.Split(',').Select(c => c.Trim()).ToArray();
-        courseForm.Authors = new List<AuthorModel1> { new AuthorModel1 { Name = authorName } };
-        courseForm.Content.Includes = includes?.Split(',').Select(i => i.Trim()).ToArray();
 
         var request = new
         {
@@ -156,22 +162,34 @@
         }
     }
 
+    private void InitializeForm()
+    {
+        // Lägg till ett standardförfattareobjekt om listan är tom
+        if (courseForm.Authors == null || courseForm.Authors.Count == 0)
+        {
+            courseForm.Authors = new List<AuthorModel1> { new AuthorModel1() };
+        }
+    }
+
+    public string AuthorNames => string.Join(", ", courseForm.Authors.Select(author => author.Name));
+
     public class CreateCourseCardModel1
     {
         public CreateCourseCardModel1()
         {
+            Authors = new List<AuthorModel1>();
             Prices = new PricesModel1();
             Content = new ContentModel1
                 {
                     ProgramDetails = new List<ProgramDetailItemModel1>
-                {
-                    new ProgramDetailItemModel1 { Id = 1 },
-                    new ProgramDetailItemModel1 { Id = 2 },
-                    new ProgramDetailItemModel1 { Id = 3 },
-                    new ProgramDetailItemModel1 { Id = 4 },
-                    new ProgramDetailItemModel1 { Id = 5 },
-                    new ProgramDetailItemModel1 { Id = 6 }
-                }
+            {
+                new ProgramDetailItemModel1 { Id = 1 },
+                new ProgramDetailItemModel1 { Id = 2 },
+                new ProgramDetailItemModel1 { Id = 3 },
+                new ProgramDetailItemModel1 { Id = 4 },
+                new ProgramDetailItemModel1 { Id = 5 },
+                new ProgramDetailItemModel1 { Id = 6 }
+            }
                 };
         }
 
@@ -179,7 +197,7 @@
         public string? ImageHeaderUri { get; set; }
         public bool IsBestseller { get; set; }
         public bool IsDigital { get; set; }
-        public string[]? Categories { get; set; }
+        public string? Categories { get; set; }
         public string? Title { get; set; }
         public string? Ingress { get; set; }
         public decimal StarRating { get; set; }
@@ -188,8 +206,8 @@
         public string? Likes { get; set; }
         public string? Hours { get; set; }
         public List<AuthorModel1>? Authors { get; set; }
-        public PricesModel1? Prices { get; set; }
-        public ContentModel1? Content { get; set; }
+        public PricesModel1 Prices { get; set; }
+        public ContentModel1 Content { get; set; }
     }
 
     public class AuthorModel1
@@ -212,7 +230,7 @@
         }
 
         public string? Description { get; set; }
-        public string[]? Includes { get; set; }
+        public string? Includes { get; set; }
         public List<ProgramDetailItemModel1>? ProgramDetails { get; set; }
     }
 
