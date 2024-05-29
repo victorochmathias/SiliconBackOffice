@@ -1,4 +1,5 @@
-﻿
+﻿@using Microsoft.EntityFrameworkCore
+
 <div class="my-create-content">
 
     <EditForm FormName="createForm" Model="createForm" OnValidSubmit="OnValidSubmit" asp-route-returnUrl="@ReturnUrl" method="post" novalidate>
@@ -33,13 +34,29 @@
                 <InputText @bind-Value="createForm.ConfirmPassword" type="password" />
                 <ValidationMessage For="() => createForm.ConfirmPassword" />
             </div>
-            <button id="form-submit" class="btn-theme-s" type="submit">Update</button>
+            <div id="form-role" class="input-group">
+                <label>Role</label>
+                <InputSelect @bind-Value="createForm.SelectedRole">
+                    @foreach (var role in roles)
+                    {
+                        <option value="@role.Name">@role.Name</option>
+                    }
+                </InputSelect>
+                <ValidationMessage For="() => createForm.SelectedRole" />
+            </div>
+            <button id="form-submit" class="btn-theme-s" type="submit">Create!</button>
         </div>
     </EditForm>
 </div>
 
 @code {
 
+    private List<IdentityRole> roles = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        roles = await RoleManager.Roles.ToListAsync();
+    }
 
     [SupplyParameterFromQuery]
     private string StatusMessage { get; set; } = "";
@@ -67,11 +84,12 @@
         var result = await UserManager.CreateAsync(user, createForm.Password);
         if (!result.Succeeded)
         {
-            
+
             ErrorStatusMessage = "Could not create a admin with that email. Please try again.";
         }
         else
         {
+            await UserManager.AddToRoleAsync(user, createForm.SelectedRole);
             StatusMessage = "Admin successfully created.";
         }
     }
@@ -93,6 +111,8 @@
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string? ConfirmPassword { get; set; }
 
+        [Required]
+        public string SelectedRole { get; set; }
     }
 
 

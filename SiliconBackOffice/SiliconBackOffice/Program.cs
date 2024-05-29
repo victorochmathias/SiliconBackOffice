@@ -49,7 +49,7 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 
 builder.Services.AddIdentityCore<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddRoles<AspNetRole>()
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddSignInManager()
     .AddDefaultTokenProviders();
@@ -104,6 +104,27 @@ app.MapAdditionalIdentityEndpoints();
 
 
 
+using (var scope = app.Services.CreateScope())
+{
+    var roleManager = 
+        scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
+    var roles = new[] { "Admin", "Super user" };
+
+    foreach (var role in roles)
+    {
+        if (!await roleManager.RoleExistsAsync(role))
+            await roleManager.CreateAsync(new IdentityRole(role));
+    }
+}
+
+
+//using (var scope = app.Services.CreateScope())
+//{
+//    var userManager =
+//        scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+
+    
+//}
 
 app.Run();

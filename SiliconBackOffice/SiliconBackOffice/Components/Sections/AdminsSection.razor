@@ -29,6 +29,12 @@
         </div>
         <NavLink class="btn-theme" href="/createadmin">Create admin here!<i class="fa-solid fa-user-plus"></i></NavLink>
     </div>
+    <AuthorizeView Roles="Super user">
+        <p>You have an 'Superuser' role claim.</p>
+    </AuthorizeView>
+    <AuthorizeView Roles="Admin">
+        <p>You have an 'Admin' role claim.</p>
+    </AuthorizeView>
 </section>
 
 @code {
