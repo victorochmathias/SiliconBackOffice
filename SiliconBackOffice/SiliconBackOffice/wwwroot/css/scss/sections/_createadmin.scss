@@ -1,0 +1,12 @@
+.my-create-content {
+    background-color: $gray-200;
+    display: flex;
+    justify-content: center;
+
+    .admincreateform {
+        width: 40%;
+        margin-top: 3rem;
+        border-radius: 10px;
+        padding: 2rem;
+    }
+}

@@ -2,7 +2,7 @@
 
 <div class="my-create-content">
 
-    <EditForm FormName="createForm" Model="createForm" OnValidSubmit="OnValidSubmit" asp-route-returnUrl="@ReturnUrl" method="post" novalidate>
+    <EditForm class="admincreateform" FormName="createForm" Model="createForm" OnValidSubmit="OnValidSubmit" asp-route-returnUrl="@ReturnUrl" method="post" novalidate>
         <DataAnnotationsValidator />
         @if (!string.IsNullOrEmpty(StatusMessage))
         {

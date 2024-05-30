@@ -11,7 +11,7 @@
         <NavLink href="/admins">Admins</NavLink>
         <NavLink href="/subscribers">Subscribers</NavLink>
     </div>
-    <div class="content">
+    <div class="contentsubs">
         @if (sub == null)
         {
             <p>Loading...</p>
@@ -20,7 +20,7 @@
         {
             <div class="my-content">
 
-                <EditForm FormName="updateForm" Model="updateForm" OnValidSubmit="OnValidSubmit" asp-route-returnUrl="@ReturnUrl" method="post" novalidate>
+                <EditForm class="editsubscribeform" FormName="updateForm" Model="updateForm" OnValidSubmit="OnValidSubmit" asp-route-returnUrl="@ReturnUrl" method="post" novalidate>
                     <DataAnnotationsValidator />
                     @if (!string.IsNullOrEmpty(StatusMessage))
                     {

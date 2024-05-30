@@ -1,33 +1,43 @@
 
 
+.contentsubs {
+    background-color: $gray-200;
+    display: flex;
+    justify-content: center;
+
+    .my-content {
+        width: 40%;
+        margin-top: 3rem;
+        border-radius: 10px;
+        padding: 2rem;
+
+        .editsubscribeform {
+            
 
 
-.my-content {
+            h2 {
+            }
 
-    form {
+            h4 {
+                background-color: $gray-200;
+                margin: 0;
+                color: $theme;
+            }
 
-        h2 {
-        }
+            .contentform {
 
-        h4 {
-            background-color: $gray-200;
-            margin: 0;
-            color: $theme;
-        }
-
-        .contentform {
-
-            .checkbox-and-selectedcontent {
-                display: flex;
+                .checkbox-and-selectedcontent {
+                    display: flex;
 
 
-                h6 {
-                    
+                    h6 {
+                    }
                 }
             }
         }
     }
 }
+
 
 
 

@@ -847,12 +847,23 @@ form .validation-message {
   background-color: #EFF2FC;
 }
 
-.my-content form h4 {
+.contentsubs {
+  background-color: #EFF2FC;
+  display: flex;
+  justify-content: center;
+}
+.contentsubs .my-content {
+  width: 40%;
+  margin-top: 3rem;
+  border-radius: 10px;
+  padding: 2rem;
+}
+.contentsubs .my-content .editsubscribeform h4 {
   background-color: #EFF2FC;
   margin: 0;
   color: #6366F1;
 }
-.my-content form .contentform .checkbox-and-selectedcontent {
+.contentsubs .my-content .editsubscribeform .contentform .checkbox-and-selectedcontent {
   display: flex;
 }
 .btn-switch-notification {
@@ -979,21 +990,33 @@ form .validation-message {
   color: white;
 }
 
-form {
+.formcreate {
   background-color: #EFF2FC !important;
   display: flex;
   justify-content: center;
 }
-form h3 {
+.formcreate h3 {
   color: #6366F1;
 }
-form .formcontento {
+.formcreate .formcontento {
   width: 40%;
   padding: 2rem;
   background-color: #ffffff;
   border-radius: 10px;
   margin-top: 3rem;
 }
-form .formcontento .checkbox-flex {
+.formcreate .formcontento .checkbox-flex {
   display: flex;
+}
+
+.my-create-content {
+  background-color: #EFF2FC;
+  display: flex;
+  justify-content: center;
+}
+.my-create-content .admincreateform {
+  width: 40%;
+  margin-top: 3rem;
+  border-radius: 10px;
+  padding: 2rem;
 }
