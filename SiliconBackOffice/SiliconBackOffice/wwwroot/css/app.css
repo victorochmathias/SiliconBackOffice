@@ -804,3 +804,73 @@ form .validation-message {
 .my-content form .contentform {
   background-color: #EFF2FC;
 }
+
+.my-content form h4 {
+  background-color: #EFF2FC;
+  margin: 0;
+  color: #6366F1;
+}
+.my-content form .contentform .checkbox-and-selectedcontent {
+  display: flex;
+}
+.btn-switch-notification {
+  display: flex;
+  gap: 10px;
+  margin-right: 1rem;
+}
+.btn-switch-notification label {
+  line-height: 160%;
+  font-weight: 400;
+  color: #565973;
+  font-family: "Manrope", sans-serif;
+  font-size: 16px;
+  color: #33354D;
+  font-weight: 600 !important;
+}
+.btn-switch-notification .switch {
+  position: relative;
+  display: inline-block;
+  width: 46px;
+  height: 25px;
+}
+.btn-switch-notification .switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.btn-switch-notification .switch input:checked + .slider {
+  background-color: #22C55E;
+}
+.btn-switch-notification .switch input:focus + .slider {
+  box-shadow: 0 0 1px #22C55E;
+}
+.btn-switch-notification .switch input:checked + .slider:before {
+  transform: translateX(20px);
+  background-color: #FFFFFF;
+}
+.btn-switch-notification .switch .slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #565973;
+  transition: 0.4s;
+}
+.btn-switch-notification .switch .slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 3px;
+  bottom: 2.7px;
+  background-color: #FFFFFF;
+  transition: 0.4s;
+}
+.btn-switch-notification .switch .slider.round {
+  border-radius: 34px;
+}
+.btn-switch-notification .switch .slider.round:before {
+  border-radius: 50%;
+}
