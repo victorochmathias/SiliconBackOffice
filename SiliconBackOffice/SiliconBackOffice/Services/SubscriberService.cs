@@ -50,7 +50,7 @@ public class SubscriberService(DataContext context)
     }
 
 
-    public async Task<bool> UpdateSubscriberAsync(string email, UpdateFormModel model)
+    public async Task<bool> UpdateSubscriberAsync(string email,UpdateFormModel model)
     {
         var sub = await _context.Subscribers.FirstOrDefaultAsync(u => u.Email == email);
 
@@ -58,8 +58,13 @@ public class SubscriberService(DataContext context)
         {
             return false;
         }
-
-        sub.Email = model.Email;
+        sub.Email = email;
+        sub.DailyNewletter = model.DailyNewletter;
+        sub.StartupsWeekly = model.StartupsWeekly;
+        sub.EventUpdates = model.EventUpdates;
+        sub.AdvertisingUpdates = model.AdvertisingUpdates;
+        sub.Podcasts = model.Podcasts;
+        sub.WeekInReview = model.WeekInReview;
 
         _context.Entry(sub).State = EntityState.Modified;
         var result = await _context.SaveChangesAsync();

@@ -9,7 +9,6 @@
         <NavLink href="/users">Users</NavLink>
         <NavLink href="/courses">Courses</NavLink>
         <NavLink href="/admins">Admins</NavLink>
-        <NavLink href="/createcourse">Create Course</NavLink>
         <NavLink href="/subscribers">Subscribers</NavLink>
     </div>
     <div class="content">
@@ -30,13 +29,70 @@
                         </div>
                     }
                     <h2>You are now editing: @sub.Email</h2>
+                    <h4>Add or remove content here:</h4>
 
                     <div class="contentform">
-                        <div id="form-email" class="input-group">
+                        @* <div id="form-email" class="input-group">
                             <label>Email</label>
                             <InputText @bind-Value="updateForm.Email" type="email" />
                             <ValidationMessage For="() => updateForm.Email" />
+                        </div> *@
+                        <div class="checkbox-and-selectedcontent">
+                            <div class="btn-switch-notification">
+                                <label class="switch" for="switch-mode-content1">
+                                    <InputCheckbox id="switch-mode-content1" @bind-Value="updateForm.DailyNewletter" />
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                            <h6>Daily Newsletter</h6>
                         </div>
+                        <div class="checkbox-and-selectedcontent">
+                            <div class="btn-switch-notification">
+                                <label class="switch" for="switch-mode-content2">
+                                    <InputCheckbox id="switch-mode-content2" @bind-Value="updateForm.AdvertisingUpdates" />
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                            <h6>Advertising Updates</h6>
+                        </div>
+                        <div class="checkbox-and-selectedcontent">
+                            <div class="btn-switch-notification">
+                                <label class="switch" for="switch-mode-content3">
+                                    <InputCheckbox id="switch-mode-content3" @bind-Value="updateForm.WeekInReview" />
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                            <h6>Week In Review</h6>
+                        </div>
+                        <div class="checkbox-and-selectedcontent">
+                            <div class="btn-switch-notification">
+                                <label class="switch" for="switch-mode-content4">
+                                    <InputCheckbox id="switch-mode-content4" @bind-Value="updateForm.EventUpdates" />
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                            <h6>Event Updates</h6>
+                        </div>
+                        <div class="checkbox-and-selectedcontent">
+                            <div class="btn-switch-notification">
+                                <label class="switch" for="switch-mode-content5">
+                                    <InputCheckbox id="switch-mode-content5" @bind-Value="updateForm.StartupsWeekly" />
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                            <h6>Startups Weekly</h6>
+                        </div>
+                        <div class="checkbox-and-selectedcontent">
+                            <div class="btn-switch-notification">
+                                <label class="switch" for="switch-mode-content6">
+                                    <InputCheckbox id="switch-mode-content6" @bind-Value="updateForm.Podcasts" />
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                            <h6>Podcasts</h6>
+                        </div>
+                        
+                        
                         <button id="form-submit" class="btn-theme-s" type="submit">Update</button>
                     </div>
                 </EditForm>
@@ -72,24 +128,24 @@
 
     public async Task OnValidSubmit(EditContext editContext)
     {
-        var alreadyExists = await subscriberService.GetSubscriberByEmailAsync(updateForm.Email);
-        if (alreadyExists != null && alreadyExists.Email != Email)
-        {
-            StatusMessage = "An account with this email address already exists.";
-            return;
-        }
+        // var alreadyExists = await subscriberService.GetSubscriberByEmailAsync(Email);
+        // if (alreadyExists != null && alreadyExists.Email != Email)
+        // {
+        //     StatusMessage = "An account with this email address already exists.";
+        //     return;
+        // }
 
         // Get the existing user
-        var userEntity = await subscriberService.GetSubscriberByEmailAsync(Email);
+        // var userEntity = await subscriberService.GetSubscriberByEmailAsync(Email);
 
-        if (userEntity == null)
-        {
-            StatusMessage = "User not found.";
-            return;
-        }
+        // if (userEntity == null)
+        // {
+        //     StatusMessage = "User not found.";
+        //     return;
+        // }
 
 
-        var success = await subscriberService.UpdateSubscriberAsync(userEntity.Email, updateForm);
+        var success = await subscriberService.UpdateSubscriberAsync(Email, updateForm);
         if (success)
         {
             NavigationManager.NavigateTo("/");
@@ -105,5 +161,11 @@
     public class UpdateFormModel
     {
         public string? Email { get; set; }
+        public bool DailyNewletter { get; set; }
+        public bool AdvertisingUpdates { get; set; }
+        public bool WeekInReview { get; set; }
+        public bool EventUpdates { get; set; }
+        public bool StartupsWeekly { get; set; }
+        public bool Podcasts { get; set; }
     }
 }

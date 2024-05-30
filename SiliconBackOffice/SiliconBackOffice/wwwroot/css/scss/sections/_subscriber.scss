@@ -1,0 +1,81 @@
+
+.subscribers {
+    .container {
+        .header {
+            h1 {
+                // Styles for the header
+                margin-bottom: 20px; // Adjust the spacing below the header
+                color: green;
+            }
+        }
+
+        .sub-list {
+            display: flex;
+            flex-direction: column; // Stack items vertically
+            gap: 10px; // Space between items
+
+            .sub {
+                position: relative;
+                display: flex;
+                flex-direction: column;
+                border: 1px solid #ddd;
+                padding: 10px;
+                border-radius: 5px;
+                background-color: #f9f9f9;
+
+
+                .user-title {
+                    margin: 0;
+                    font-size: 18px;
+                    font-weight: bold;
+                }
+
+
+                .admin-btns-field {
+                    display: flex;
+                    gap: 0.5rem;
+                    position: absolute;
+                    right: 10px;
+
+
+                    .my-delete-btn {
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        background-color: #f55a5a;
+                        color: white;
+                        border: none;
+                        border-radius: 5px;
+                        cursor: pointer;
+                        display: flex;
+                        width: 2rem;
+                        height: 2rem;
+
+
+                        i {
+                            color: white;
+                        }
+                    }
+
+                    .my-update-btn {
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        background-color: $theme;
+                        color: white;
+                        border: none;
+                        border-radius: 5px;
+                        cursor: pointer;
+                        display: flex;
+                        width: 2rem;
+                        height: 2rem;
+
+                        i {
+                            color: white;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
