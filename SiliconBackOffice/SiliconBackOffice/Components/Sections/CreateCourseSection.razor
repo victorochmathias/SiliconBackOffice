@@ -2,114 +2,122 @@
 @using System.Text.Json
 @inject HttpClient Http
 
-<h3>Create Course Section</h3>
-<p>HEJHEJHEJ</p>
+
+
 
 <EditForm Model="courseForm" OnValidSubmit="CreateCourse" FormName="createCourseForm" asp-route-returnUrl="@ReturnUrl" OnInitialized="InitializeForm">
     <DataAnnotationsValidator />
     <ValidationSummary />
+    <div class="formcontento">
+        <h3>Create Course</h3>
+        <div class="input-group">
+            <label>Title:</label>
+            <InputText @bind-Value="courseForm.Title" />
+        </div>
+        <div class="input-group">
+            <label>Image URI:</label>
+            <InputText @bind-Value="courseForm.ImageUri" />
+        </div>
+        <div class="input-group">
+            <label>Image Header URI:</label>
+            <InputText @bind-Value="courseForm.ImageHeaderUri" />
+        </div>
 
-    <div>
-        <label>Title:</label>
-        <InputText @bind-Value="courseForm.Title" />
-    </div>
-    <div>
-        <label>Image URI:</label>
-        <InputText @bind-Value="courseForm.ImageUri" />
-    </div>
-    <div>
-        <label>Image Header URI:</label>
-        <InputText @bind-Value="courseForm.ImageHeaderUri" />
-    </div>
-    <div>
-        <label>Is Bestseller:</label>
-        <InputCheckbox @bind-Value="courseForm.IsBestseller" />
-    </div>
-    <div>
-        <label>Is Digital:</label>
-        <InputCheckbox @bind-Value="courseForm.IsDigital" />
-    </div>
-    <div>
-        <label>Categories (comma-separated):</label>
-        <InputText @bind-Value="courseForm.Categories" />
-    </div>
-    <div>
-        <label>Ingress:</label>
-        <InputText @bind-Value="courseForm.Ingress" />
-    </div>
-    <div>
-        <label>Star Rating:</label>
-        <InputNumber @bind-Value="courseForm.StarRating" />
-    </div>
-    <div>
-        <label>Reviews:</label>
-        <InputText @bind-Value="courseForm.Reviews" />
-    </div>
-    <div>
-        <label>Likes In Percent:</label>
-        <InputText @bind-Value="courseForm.LikesInProcent" />
-    </div>
-    <div>
-        <label>Likes:</label>
-        <InputText @bind-Value="courseForm.Likes" />
-    </div>
-    <div>
-        <label>Hours:</label>
-        <InputText @bind-Value="courseForm.Hours" />
-    </div>
-    <div>
-        <label>Author Name:</label>
-        @if (courseForm.Authors != null && courseForm.Authors.Any())
-        {
-            <InputText @bind-Value="courseForm.Authors[0].Name" />
-        }
-        else
-        {
-            <InputText @bind-Value="authorName" />
-        }
-    </div>
+        <label class="checkbox-box">
+            @* <label>Is Bestseller:</label> *@
+            <InputCheckbox @bind-Value="courseForm.IsBestseller" />
+            <span class="min-checkmark"></span>
+            <p>Is Bestseller</p>
+        </label>
+        <label class="checkbox-box">
+            @* <label>Is Digital:</label> *@
+            <InputCheckbox @bind-Value="courseForm.IsDigital" />
+            <span class="min-checkmark"></span>
+            <p>Is Digital</p>
+        </label>
+        <div class="input-group">
+            <label>Categories (comma-separated):</label>
+            <InputText @bind-Value="courseForm.Categories" />
+        </div>
+        <div class="input-group">
+            <label>Ingress:</label>
+            <InputText @bind-Value="courseForm.Ingress" />
+        </div>
+        <div class="input-group">
+            <label>Star Rating:</label>
+            <InputNumber @bind-Value="courseForm.StarRating" />
+        </div>
+        <div class="input-group">
+            <label>Reviews:</label>
+            <InputText @bind-Value="courseForm.Reviews" />
+        </div>
+        <div class="input-group">
+            <label>Likes In Percent:</label>
+            <InputText @bind-Value="courseForm.LikesInProcent" />
+        </div>
+        <div class="input-group">
+            <label>Likes:</label>
+            <InputText @bind-Value="courseForm.Likes" />
+        </div>
+        <div class="input-group">
+            <label>Hours:</label>
+            <InputText @bind-Value="courseForm.Hours" />
+        </div>
+        <div class="input-group">
+            <label>Author Name:</label>
+            @if (courseForm.Authors != null && courseForm.Authors.Any())
+            {
+                <InputText @bind-Value="courseForm.Authors[0].Name" />
+            }
+            else
+            {
+                <InputText @bind-Value="authorName" />
+            }
+        </div>
 
 
 
 
-    <div>
-        <label>Price:</label>
-        <InputNumber @bind-Value="courseForm.Prices.Price" />
-    </div>
-    <div>
-        <label>Currency:</label>
-        <InputText @bind-Value="courseForm.Prices.Currency" />
-    </div>
-    <div>
-        <label>Discount:</label>
-        <InputNumber @bind-Value="courseForm.Prices.Discount" />
-    </div>
-    <div>
-        <label>Description:</label>
-        <InputText @bind-Value="courseForm.Content.Description" />
-    </div>
-    <div>
-        <label>Includes (comma-separated):</label>
-        <InputText @bind-Value="courseForm.Content.Includes" />
-    </div>
-    <div>
-        <h4>Program Details:</h4>
-        @* @foreach (var detail in courseForm.Content.ProgramDetails)
-        {
+        <div class="input-group">
+            <label>Price:</label>
+            <InputNumber @bind-Value="courseForm.Prices.Price" />
+        </div>
+        <div class="input-group">
+            <label>Currency:</label>
+            <InputText @bind-Value="courseForm.Prices.Currency" />
+        </div>
+        <div class="input-group">
+            <label>Discount:</label>
+            <InputNumber @bind-Value="courseForm.Prices.Discount" />
+        </div>
+        <div class="input-group">
+            <label>Description:</label>
+            <InputText @bind-Value="courseForm.Content.Description" />
+        </div>
+        <div class="input-group">
+            <label>Includes (comma-separated):</label>
+            <InputText @bind-Value="courseForm.Content.Includes" />
+        </div>
+        <div>
+            @* <h4>Program Details:</h4> *@
+            @* @foreach (var detail in courseForm.Content.ProgramDetails)
+            {
             <div>
-                <label>Id @detail.Id:</label>
-                <br />
-                <label>Title:</label>
-                <InputText @bind-Value="detail.Title" />
-                <br />
-                <label>Description:</label>
-                <InputText @bind-Value="detail.Description" />
-                <br />
+            <label>Id @detail.Id:</label>
+            <br />
+            <label>Title:</label>
+            <InputText @bind-Value="detail.Title" />
+            <br />
+            <label>Description:</label>
+            <InputText @bind-Value="detail.Description" />
+            <br />
             </div>
-        } *@
-    </div>
+            } *@
+        </div>
 
-    <button type="submit">Create Course</button>
+        <button class="btn-theme" type="submit">Create Course</button>
+    </div>
+    
 </EditForm>
 
 @if (!string.IsNullOrEmpty(jsonOutput))

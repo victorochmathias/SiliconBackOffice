@@ -706,12 +706,16 @@ form .validation-message {
   margin-bottom: 20px;
   color: green;
 }
+.courses-page .courses .container .header .btn-theme {
+  height: 45px;
+}
 .courses-page .courses .container .course-list {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 .courses-page .courses .container .course-list .course {
+  position: relative;
   display: flex;
   flex-direction: column;
   border: 1px solid #ddd;
@@ -723,6 +727,44 @@ form .validation-message {
   margin: 0;
   font-size: 18px;
   font-weight: bold;
+}
+.courses-page .courses .container .course-list .course .admin-btns-field {
+  display: flex;
+  gap: 0.5rem;
+  position: absolute;
+  right: 10px;
+}
+.courses-page .courses .container .course-list .course .admin-btns-field .my-delete-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f55a5a;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  width: 2rem;
+  height: 2rem;
+}
+.courses-page .courses .container .course-list .course .admin-btns-field .my-delete-btn i {
+  color: white;
+}
+.courses-page .courses .container .course-list .course .admin-btns-field .my-update-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #6366F1;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  width: 2rem;
+  height: 2rem;
+}
+.courses-page .courses .container .course-list .course .admin-btns-field .my-update-btn i {
+  color: white;
 }
 
 .users .container .header h1 {
@@ -873,4 +915,85 @@ form .validation-message {
 }
 .btn-switch-notification .switch .slider.round:before {
   border-radius: 50%;
+}
+
+.subscribers .container .header h1 {
+  margin-bottom: 20px;
+  color: green;
+}
+.subscribers .container .sub-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.subscribers .container .sub-list .sub {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #ddd;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+.subscribers .container .sub-list .sub .user-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: bold;
+}
+.subscribers .container .sub-list .sub .admin-btns-field {
+  display: flex;
+  gap: 0.5rem;
+  position: absolute;
+  right: 10px;
+}
+.subscribers .container .sub-list .sub .admin-btns-field .my-delete-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f55a5a;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  width: 2rem;
+  height: 2rem;
+}
+.subscribers .container .sub-list .sub .admin-btns-field .my-delete-btn i {
+  color: white;
+}
+.subscribers .container .sub-list .sub .admin-btns-field .my-update-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #6366F1;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  width: 2rem;
+  height: 2rem;
+}
+.subscribers .container .sub-list .sub .admin-btns-field .my-update-btn i {
+  color: white;
+}
+
+form {
+  background-color: #EFF2FC !important;
+  display: flex;
+  justify-content: center;
+}
+form h3 {
+  color: #6366F1;
+}
+form .formcontento {
+  width: 40%;
+  padding: 2rem;
+  background-color: #ffffff;
+  border-radius: 10px;
+  margin-top: 3rem;
+}
+form .formcontento .checkbox-flex {
+  display: flex;
 }

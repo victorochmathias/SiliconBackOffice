@@ -18,7 +18,7 @@
                     <div class="sub">
                         <h5 class="user-title">@item.Email</h5>
                         <div class="admin-btns-field">
-                            @* <NavLink class="my-update-btn" href="@($"/editsubscriber/{item.Email}")"><i class="fa-solid fa-pen-to-square"></i></NavLink> *@
+                            <NavLink class="my-update-btn" href="@($"/editsubscriber/{item.Email}")"><i class="fa-solid fa-pen-to-square"></i></NavLink>
                             <button class="my-delete-btn" type="button" @onclick="@(async () => await OnDeleteSubscriber(item.Email))"><i class="fa-sharp fa-solid fa-circle-xmark"></i></button>
                         </div>
                     </div>
